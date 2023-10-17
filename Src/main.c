@@ -51,9 +51,26 @@ int main(void)
 	//type your code for GPIOA clock enable here:
 
 
-  /* GPIOA pin 3 and 4 setup */
+   RCC_AHBENR_REG |= (uint32_t)(1 << 17);
+      // replace with RCC_AHBENR_REG?
 
-	//type your code for GPIOA pins setup here:
+    /* GPIOA pin 3 and 4 setup */
+
+  	//type your code for GPIOA pins setup here:
+      *((volatile uint32_t *)(GPIOA_MODER_REG)) &= ~(uint32_t)(0x3 << 6); //set input mode for pin 3
+
+      *((volatile uint32_t *)(GPIOA_MODER_REG)) &= ~(uint32_t)(0x3 << 8); //put 00 (part of setting output) in pin 4
+      *((volatile uint32_t *)(GPIOA_MODER_REG)) |= (uint32_t)(1 << 8);  //set output mode for pin 4
+
+      *((volatile uint32_t *)(GPIOA_OTYPER_REG)) &= ~(uint32_t)(1 << 4); //set output type to push-pull
+
+      *((volatile uint32_t *)(GPIOA_OSPEEDER_REG)) &= ~(uint32_t)(1 << 8);  //set output to low speed
+
+      *((volatile uint32_t *)((uint32_t)(GPIOA_PUPDR_REG))) &= ~(0x3 << 6);  //put 00 (part of setting pullup) on pin 3
+      *((volatile uint32_t *)((uint32_t)(GPIOA_PUPDR_REG))) |= (1 << 6);   //set pull up for button on pin 3
+
+      *((volatile uint32_t *)((uint32_t)(GPIOA_PUPDR_REG))) &= ~(0x3 << 8);  //no pull for output on pin 4
+
 
 
   while (1)
