@@ -75,9 +75,27 @@ int main(void)
 
   while (1)
   {
-	  /* Read button state and blink the led fast/slow */
+	  // Read the button state
+      button_state = BUTTON_GET_STATE;
 
-	  //type your code for led blinking here:
+      // Detect a rising edge on the button
+      edge = edgeDetect(button_state, 5); // Detect an edge after 2 consecutive samples
+
+      if (edge == RISE)
+      {
+          // Toggle the LED state
+          if (ledCurState == 1) {
+        	  ledCurState = 0;
+              LED_OFF;
+//              LL_mDelay(50);
+          } else {
+              LED_ON;
+              ledCurState = 1;
+//              LL_mDelay(50);
+          }
+      }
+
+      LL_mDelay(5);
 
   }
 
